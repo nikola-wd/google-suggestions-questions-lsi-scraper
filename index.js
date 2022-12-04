@@ -1,7 +1,8 @@
 const fs = require('fs');
 const FILE_NAME = 'keywordsData.csv';
 const puppeteer = require('puppeteer');
-const keywords = require('./mainKeywords');
+// const keywords = require('./mainKeywords');
+const keywords = require('./mainMainKeywords');
 
 // const keywords = [
 //   'glutenfree',
@@ -15,12 +16,18 @@ const keywords = require('./mainKeywords');
 // ];
 
 const asyncForEach = async (array, callback) => {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
+  for await (let [index, value] of array.entries()) {
+    await callback(value, index, array);
   }
 };
+// const asyncForEach = async (array, callback) => {
+//   for (let index = 0; index < array.length; index++) {
+//     await callback(array[index], index, array);
+//   }
+// };
 
-const chunk = keywords.slice(1254);
+// const chunk = keywords.slice(1254);
+const chunk = keywords;
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -98,5 +105,6 @@ const chunk = keywords.slice(1254);
   });
   console.log('Done');
 
-  await browser.close();
+  // TODO: Uncomment
+  // await browser.close();
 })();
